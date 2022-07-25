@@ -6,15 +6,15 @@ status: string;
 }
 
 function App() {
-  const [dogImage, setDogImage] = useState<DogImage>();
+  const [dogImages, setDogImage] = useState<DogImage[]>([]);
 
   const handleGetDogImage = async () => {
     const response = await fetch(
       "https://dog.ceo/api/breeds/image/random"
     );
     const jsonBody: DogImage = await response.json();
-    console.log(jsonBody)
-    setDogImage(jsonBody);
+    setDogImage([...dogImages, jsonBody]);
+    console.log(dogImages)
   };
 
   // const handleGetJoke = () => {
@@ -23,11 +23,11 @@ function App() {
   //     .then((jsonBody: Joke[]) => setJoke(jsonBody[0]));
   // };
 
-  if (dogImage) {
+  if (dogImages.length > 0) {
     return (
       <div>
         <h1>Dog app</h1>
-          <img src={dogImage.message} alt="This is a cute dog"/>
+          <img src={dogImages[dogImages.length - 1].message} alt="This is a cute dog"/>
         <hr />
         <button onClick={handleGetDogImage}>Get another dog</button>
       </div>
